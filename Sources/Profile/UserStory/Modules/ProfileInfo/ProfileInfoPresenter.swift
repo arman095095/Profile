@@ -18,6 +18,7 @@ protocol ProfileInfoModuleInput: AnyObject { }
 
 protocol ProfileInfoViewOutput: AnyObject {
     func viewDidLoad()
+    func viewWillAppear()
     func showPosts()
     func showAccountSettings()
     func showMenu()
@@ -56,6 +57,12 @@ final class ProfileInfoPresenter {
 }
 
 extension ProfileInfoPresenter: ProfileInfoViewOutput {
+
+    func viewWillAppear() {
+        guard let profileID = currentProfile?.id else { return }
+        interactor.refreshProfileInfo(userID: profileID)
+    }
+    
     func viewDidLoad() {
         switch context {
         case .root(let dto):
@@ -101,6 +108,16 @@ extension ProfileInfoPresenter: ProfileInfoRouterOutput {
 }
 
 extension ProfileInfoPresenter: ProfileInfoInteractorOutput {
+    func successResponse(profile: ProfileModelProtocol) {
+        guard let model = profile as? ProfileInfoViewModelProtocol else { return }
+        currentProfile = model
+        view?.fillInfo(with: model)
+    }
+    
+    func failureProfileResponse(message: String) {
+        alertManager.present(type: .error, title: message)
+    }
+    
     func successBlocked() {
         alertManager.present(type: .success, title: stringFactory.successBlockedMessage)
     }

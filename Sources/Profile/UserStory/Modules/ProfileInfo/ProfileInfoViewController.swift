@@ -71,6 +71,11 @@ final class ProfileInfoViewController: UIViewController {
         super.viewDidLoad()
         output?.viewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        output?.viewWillAppear()
+    }
 }
 
 extension ProfileInfoViewController: ProfileInfoViewInput {
