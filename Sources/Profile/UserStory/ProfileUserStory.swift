@@ -13,8 +13,8 @@ import Managers
 import AlertManager
 
 public protocol ProfileRouteMap: AnyObject {
-    func currentAccountModule(profile: ProfileModelProtocol) -> ModuleProtocol
-    func friendAccountModule(profile: ProfileModelProtocol) -> ModuleProtocol
+    func currentAccountModule(profile: ProfileModelProtocol) -> ProfileModule
+    func friendAccountModule(profile: ProfileModelProtocol) -> ProfileModule
 }
 
 public final class ProfileUserStory {
@@ -26,13 +26,13 @@ public final class ProfileUserStory {
 }
 
 extension ProfileUserStory: ProfileRouteMap {
-    public func friendAccountModule(profile: ProfileModelProtocol) -> ModuleProtocol {
+    public func friendAccountModule(profile: ProfileModelProtocol) -> ProfileModule {
         let module = RootModuleWrapperAssembly.makeModule(routeMap: self, context: .friend(profile))
         outputWrapper = module.input as? RootModuleWrapper
         return module
     }
     
-    public func currentAccountModule(profile: ProfileModelProtocol) -> ModuleProtocol {
+    public func currentAccountModule(profile: ProfileModelProtocol) -> ProfileModule {
         let module = RootModuleWrapperAssembly.makeModule(routeMap: self, context: .root(profile))
         outputWrapper = module.input as? RootModuleWrapper
         return module
@@ -51,7 +51,7 @@ extension ProfileUserStory: RouteMapPrivate {
                                                     alertManager: alertManager,
                                                     authManager: authManager,
                                                     profilesManager: profilesManager)
-        module._output = outputWrapper
+        module.output = outputWrapper
         return module
     }
     
@@ -66,7 +66,7 @@ extension ProfileUserStory: RouteMapPrivate {
                                                     alertManager: alertManager,
                                                     authManager: authManager,
                                                     profilesManager: profilesManager)
-        module._output = outputWrapper
+        module.output = outputWrapper
         return module
     }
 }

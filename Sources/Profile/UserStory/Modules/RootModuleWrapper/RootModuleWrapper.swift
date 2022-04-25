@@ -42,7 +42,7 @@ final class RootModuleWrapper {
         case .sendOffer(let profile):
             module = routeMap.friendProfileModule(profile: profile)
         }
-        module._output = self
+        module.output = self
         return module.view
     }
 }
