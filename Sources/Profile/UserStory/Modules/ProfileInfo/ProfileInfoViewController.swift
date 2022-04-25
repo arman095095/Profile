@@ -11,8 +11,7 @@ import DesignSystem
 
 protocol ProfileInfoViewInput: AnyObject {
     func setupInitialStateForCurrent(stringFactory: ProfileStringFactoryProtocol)
-    func setupInitialStateForRecievedRequest(stringFactory: ProfileStringFactoryProtocol)
-    func setupInitialStateForSendOffer(stringFactory: ProfileStringFactoryProtocol)
+    func setupInitialStateForFriend(stringFactory: ProfileStringFactoryProtocol)
     func fillInfo(with viewModel: ProfileInfoViewModelProtocol)
 }
 
@@ -76,20 +75,13 @@ final class ProfileInfoViewController: UIViewController {
 
 extension ProfileInfoViewController: ProfileInfoViewInput {
 
-    func setupInitialStateForRecievedRequest(stringFactory: ProfileStringFactoryProtocol) {
+    func setupInitialStateForFriend(stringFactory: ProfileStringFactoryProtocol) {
         setupViews(stringFactory: stringFactory)
         setupConstraints(current: false)
         addKeyboardObservers()
         setupActions()
     }
-    
-    func setupInitialStateForSendOffer(stringFactory: ProfileStringFactoryProtocol) {
-        setupViews(stringFactory: stringFactory)
-        setupConstraints(current: false)
-        addKeyboardObservers()
-        setupActions()
-    }
-    
+
     func setupInitialStateForCurrent(stringFactory: ProfileStringFactoryProtocol) {
         setupViews(stringFactory: stringFactory)
         setupConstraints(current: true)

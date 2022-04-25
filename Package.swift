@@ -13,12 +13,12 @@ let package = Package(
             targets: ["Profile"]),
     ],
     dependencies: [
-        .package(name: "Module", path: "/Users/armancarhcan/Desktop/Module"),
-        .package(name: "Managers", path: "/Users/armancarhcan/Desktop/Managers"),
-        .package(name: "DesignSystem", path: "/Users/armancarhcan/Desktop/DesignSystem"),
-        .package(name: "AlertManager", path: "/Users/armancarhcan/Desktop/AlertManager"),
-        .package(name: "Utils", path: "/Users/armancarhcan/Desktop/Utils"),
-        .package(name: "Selection", path: "/Users/armancarhcan/Desktop/Selection"),
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0"),
+        .package(url: "https://github.com/arman095095/Managers.git", branch: "develop"),
+        .package(url: "https://github.com/arman095095/Module.git", branch: "develop"),
+        .package(url: "https://github.com/arman095095/DesignSystem.git", branch: "develop"),
+        .package(url: "https://github.com/arman095095/AlertManager.git", branch: "develop"),
+        .package(url: "https://github.com/arman095095/Utils.git", branch: "develop"),
         .package(url: "https://github.com/SDWebImage/SDWebImage.git", from: "5.1.0")
     ],
     targets: [
@@ -26,11 +26,12 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Profile",
-            dependencies: [.product(name: "SDWebImage", package: "SDWebImage"), .product(name: "Module", package: "Module"),
+            dependencies: [.product(name: "Swinject", package: "Swinject"),
+                           .product(name: "SDWebImage", package: "SDWebImage"),
+                           .product(name: "Module", package: "Module"),
                            .product(name: "Managers", package: "Managers"),
                            .product(name: "DesignSystem", package: "DesignSystem"),
                            .product(name: "AlertManager", package: "AlertManager"),
-                           .product(name: "Selection", package: "Selection"),
                            .product(name: "Utils", package: "Utils")])
     ]
 )

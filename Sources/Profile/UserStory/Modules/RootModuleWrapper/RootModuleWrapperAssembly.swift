@@ -12,9 +12,9 @@ import Module
 typealias ProfileModule = Module<ProfileModuleInput, ProfileModuleOutput>
 
 enum RootModuleWrapperAssembly {
-    static func makeModule(routeMap: RouteMapPrivate) -> Profile {
-        let wrapper = RootModuleWrapper(routeMap: routeMap)
-        return Profile(input: wrapper, view: wrapper.view()) {
+    static func makeModule(routeMap: RouteMapPrivate, context: InputFlowContext) -> ProfileModule {
+        let wrapper = RootModuleWrapper(routeMap: routeMap, flow: context)
+        return ProfileModule(input: wrapper, view: wrapper.view()) {
             wrapper.output = $0
         }
     }
