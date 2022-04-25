@@ -117,8 +117,6 @@ private extension ProfileInfoViewController {
         containerView.addSubview(buttonsView)
         containerView.addSubview(settingsButton)
         containerView.addSubview(menuButton)
-        //
-        buttonsView.backgroundColor = .yellow
         
         menuButton.setImage(UIImage(named: stringFactory.menuButtonImageName), for: .normal)
         settingsButton.setImage(UIImage(named: stringFactory.settingsButtonImageName), for: .normal)
