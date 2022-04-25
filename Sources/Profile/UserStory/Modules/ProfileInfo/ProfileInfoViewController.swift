@@ -171,15 +171,12 @@ private extension ProfileInfoViewController {
     func constraintsForYourProfile() {
         menuButton.heightAnchor.constraint(equalToConstant: 0).isActive = true
         menuButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
-        offerPanel.heightAnchor.constraint(equalToConstant: 0).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 28).isActive = true
         buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -28).isActive = true
     }
     
     func constraintsForFriendProfile() {
-        offerPanel.topAnchor.constraint(equalTo: buttonsView.bottomAnchor, constant: 20).isActive = true
-        offerPanel.heightAnchor.constraint(equalToConstant: 48).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 0).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
