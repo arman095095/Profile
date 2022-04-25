@@ -63,7 +63,6 @@ final class ProfileInfoViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private let offerPanel: UIView = UIView()
     private let buttonsView = ButtonsView()
     private var constraint: NSLayoutConstraint!
     
@@ -95,7 +94,6 @@ extension ProfileInfoViewController: ProfileInfoViewInput {
     }
     
     func fillInfo(with viewModel: ProfileInfoViewModelProtocol) {
-        navigationItem.title = viewModel.title
         imageView.sd_setImage(with: viewModel.imageURL, completed: nil)
         nameLabel.text = viewModel.nameAndAge
         countryCityLabel.text = viewModel.countryCity
@@ -107,6 +105,7 @@ extension ProfileInfoViewController: ProfileInfoViewInput {
 private extension ProfileInfoViewController {
     
     func setupViews(stringFactory: ProfileStringFactoryProtocol) {
+        navigationItem.title = stringFactory.currentAccountTitle
         navigationController?.navigationBar.barTintColor = .systemGray6
         navigationController?.navigationBar.shadowImage = UIImage()
         view.backgroundColor = .systemGray6
@@ -115,7 +114,6 @@ private extension ProfileInfoViewController {
         containerView.addSubview(nameLabel)
         containerView.addSubview(countryCityLabel)
         containerView.addSubview(userInfoLabel)
-        containerView.addSubview(offerPanel)
         containerView.addSubview(buttonsView)
         containerView.addSubview(settingsButton)
         containerView.addSubview(menuButton)
@@ -125,7 +123,6 @@ private extension ProfileInfoViewController {
         buttonsView.setTitles(firstButtonTitle: stringFactory.postsButtonTitle,
                               secondButtonTitle: stringFactory.showButtonTitle)
         
-        offerPanel.translatesAutoresizingMaskIntoConstraints = false
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -165,10 +162,6 @@ private extension ProfileInfoViewController {
         buttonsView.topAnchor.constraint(equalTo: userInfoLabel.bottomAnchor, constant: 20).isActive = true
         buttonsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30).isActive = true
         buttonsView.heightAnchor.constraint(equalToConstant: Constants.buttonFont.lineHeight).isActive = true
-        
-        offerPanel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30).isActive = true
-        offerPanel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 30).isActive = true
-        offerPanel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -28).isActive = true
         current ? constraintsForYourProfile() : constraintsForFriendProfile()
         imageView.bottomAnchor.constraint(equalTo: self.containerView.topAnchor, constant: 100).isActive = true
     }

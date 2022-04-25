@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ProfileStringFactoryProtocol {
+    var currentAccountTitle: String { get }
     var menuButtonImageName: String { get }
     var settingsButtonImageName: String { get }
     var postsButtonTitle: String { get }
@@ -24,6 +25,7 @@ protocol ProfileStringFactoryProtocol {
 }
 
 struct ProfileStringFactory: ProfileStringFactoryProtocol {
+    var currentAccountTitle = "Ваш профиль"
     var blockingTitle = "Блокировка"
     var menuButtonImageName = "menu2"
     var settingsButtonImageName = "settings2"
