@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "account",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/arman095095/Account.git",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "16654cf35baa875330fe6b5f8ffc51ba5ffad70c"
+      }
+    },
+    {
       "identity" : "alertmanager",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/arman095095/AlertManager.git",
@@ -86,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/gtm-session-fetcher.git",
       "state" : {
-        "revision" : "eca9404a18f53727e4698211aaf2615eb93b962a",
-        "version" : "1.7.1"
+        "revision" : "4e9bbf2808b8fee444e84a48f5f3c12641987d3e",
+        "version" : "1.7.2"
       }
     },
     {
@@ -105,7 +114,7 @@
       "location" : "https://github.com/arman095095/Managers.git",
       "state" : {
         "branch" : "develop",
-        "revision" : "a3e9e7c42566733f7c93545a397f9494679d422b"
+        "revision" : "25e83c9ce439ba954fca12f05b5db06f98cc6e94"
       }
     },
     {
@@ -151,6 +160,24 @@
       "state" : {
         "revision" : "2e63d0061da449ad0ed130768d05dceb1496de44",
         "version" : "5.12.5"
+      }
+    },
+    {
+      "identity" : "selection",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/arman095095/Selection.git",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "a22f16e664421458f64c50dae628389f7c3086e4"
+      }
+    },
+    {
+      "identity" : "settings",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/arman095095/Settings.git",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "1af6d2e577a0c0c1e60536514d324cc4872b4120"
       }
     },
     {
