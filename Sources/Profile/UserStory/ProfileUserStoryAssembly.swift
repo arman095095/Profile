@@ -9,9 +9,11 @@
 import UIKit
 import Swinject
 
-public final class ProfileUserStoryAssembly {
+public final class ProfileUserStoryAssembly: Assembly {
+    
+    public init() { }
 
-    public static func assemble(container: Container) {
+    public func assemble(container: Container) {
         //
     }
 }
