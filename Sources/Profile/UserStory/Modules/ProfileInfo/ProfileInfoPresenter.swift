@@ -19,6 +19,7 @@ protocol ProfileInfoModuleInput: AnyObject { }
 protocol ProfileInfoViewOutput: AnyObject {
     func viewDidLoad()
     func viewWillAppear()
+    func viewWillDisappear()
     func showPosts()
     func showAccountSettings()
     func showMenu()
@@ -59,8 +60,13 @@ final class ProfileInfoPresenter {
 extension ProfileInfoPresenter: ProfileInfoViewOutput {
 
     func viewWillAppear() {
+        view?.setupNavigationBar(on: false)
         guard let profileID = currentProfile?.id else { return }
         interactor.refreshProfileInfo(userID: profileID)
+    }
+    
+    func viewWillDisappear() {
+        view?.setupNavigationBar(on: true)
     }
     
     func viewDidLoad() {

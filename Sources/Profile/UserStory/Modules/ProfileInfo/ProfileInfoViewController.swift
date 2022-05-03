@@ -12,6 +12,7 @@ import DesignSystem
 protocol ProfileInfoViewInput: AnyObject {
     func setupInitialStateForCurrent(stringFactory: ProfileStringFactoryProtocol)
     func setupInitialStateForFriend(stringFactory: ProfileStringFactoryProtocol)
+    func setupNavigationBar(on: Bool)
     func fillInfo(with viewModel: ProfileInfoViewModelProtocol)
 }
 
@@ -75,10 +76,19 @@ final class ProfileInfoViewController: UIViewController {
         super.viewWillAppear(animated)
         output?.viewWillAppear()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        output?.viewWillDisappear()
+    }
 }
 
 extension ProfileInfoViewController: ProfileInfoViewInput {
-
+    
+    func setupNavigationBar(on: Bool) {
+        navigationController?.setNavigationBarHidden(!on, animated: true)
+    }
+    
     func setupInitialStateForFriend(stringFactory: ProfileStringFactoryProtocol) {
         setupViews(stringFactory: stringFactory)
         setupConstraints(current: false)
@@ -105,7 +115,6 @@ extension ProfileInfoViewController: ProfileInfoViewInput {
 private extension ProfileInfoViewController {
     
     func setupViews(stringFactory: ProfileStringFactoryProtocol) {
-        navigationItem.title = stringFactory.currentAccountTitle
         navigationController?.navigationBar.barTintColor = .systemGray6
         navigationController?.navigationBar.shadowImage = UIImage()
         view.backgroundColor = .systemGray6
