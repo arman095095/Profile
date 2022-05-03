@@ -29,7 +29,7 @@ extension ProfileInfoRouter: ProfileInfoRouterInput {
                           stringFactory: ProfileStringFactoryProtocol) {
         let message = blocked ? stringFactory.unblockSubtitle : stringFactory.blockSubtitle
         let acceptButtonTitle = blocked ? stringFactory.unblockButtonTitle : stringFactory.blockButtonTitle
-        transitionHandler?.showAlert(title: stringFactory.blockingTitle,
+        transitionHandler?.showAlertDestructive(title: stringFactory.blockingTitle,
                                      message: message,
                                      acceptButtonTitle: acceptButtonTitle,
                                      cancelButtonTitle: stringFactory.cancelButtonTitle,
