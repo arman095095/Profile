@@ -115,6 +115,7 @@ extension ProfileInfoViewController: ProfileInfoViewInput {
 private extension ProfileInfoViewController {
     
     func setupViews(stringFactory: ProfileStringFactoryProtocol) {
+        navigationItem.title = stringFactory.currentAccountTitle
         navigationController?.navigationBar.barTintColor = .systemGray6
         navigationController?.navigationBar.shadowImage = UIImage()
         view.backgroundColor = .systemGray6
