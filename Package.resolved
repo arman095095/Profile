@@ -91,15 +91,6 @@
       }
     },
     {
-      "identity" : "networkservices",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/arman095095/NetworkServices.git",
-      "state" : {
-        "branch" : "develop",
-        "revision" : "58a3847604218e9df7c0bc1ea407f668ee2cfaa0"
-      }
-    },
-    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
