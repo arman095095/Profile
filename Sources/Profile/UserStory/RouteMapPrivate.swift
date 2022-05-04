@@ -8,10 +8,12 @@
 
 import UIKit
 import Managers
+import PostsRouteMap
 
 protocol RouteMapPrivate: AnyObject {
     func currentAccountProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
     func friendProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
+    func postsModule(userID: String) -> PostsModule
     /*func recievedOfferProfileModule() -> ProfileInfoModule
     func sendOfferProfileModule() -> ProfileInfoModule
     func sendOfferListProfileModule() -> ProfileInfoModule*/

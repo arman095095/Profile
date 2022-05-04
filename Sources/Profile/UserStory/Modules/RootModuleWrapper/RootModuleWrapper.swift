@@ -8,14 +8,7 @@
 
 import UIKit
 import Module
-
-public protocol ProfileModuleInput: AnyObject {
-    
-}
-
-public protocol ProfileModuleOutput: AnyObject {
-    func openAccountSettingsModule()
-}
+import ProfileRouteMap
 
 final class RootModuleWrapper {
 

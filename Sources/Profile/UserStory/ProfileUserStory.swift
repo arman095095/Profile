@@ -11,11 +11,9 @@ import Foundation
 import Module
 import Managers
 import AlertManager
-
-public protocol ProfileRouteMap: AnyObject {
-    func currentAccountModule(profile: ProfileModelProtocol) -> ProfileModule
-    func friendAccountModule(profile: ProfileModelProtocol) -> ProfileModule
-}
+import ProfileRouteMap
+import PostsRouteMap
+import UserStoryFacade
 
 public final class ProfileUserStory {
     private let container: Container
@@ -40,6 +38,13 @@ extension ProfileUserStory: ProfileRouteMap {
 }
 
 extension ProfileUserStory: RouteMapPrivate {
+    func postsModule(userID: String) -> PostsModule {
+        guard let module = container.synchronize().resolve(UserStoryFacade.self)?.postsUserStory?.userPostsModule(userID: userID) else {
+            fatalError(ErrorMessage.dependency.localizedDescription)
+        }
+        return module
+    }
+    
     func currentAccountProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule {
         let safeResolver = container.synchronize()
         guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
@@ -48,6 +53,7 @@ extension ProfileUserStory: RouteMapPrivate {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         let module = ProfileInfoAssembly.makeModule(context: .root(profile),
+                                                    routeMap: self,
                                                     alertManager: alertManager,
                                                     accountManager: accountManager,
                                                     profilesManager: profilesManager)
@@ -63,6 +69,7 @@ extension ProfileUserStory: RouteMapPrivate {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         let module = ProfileInfoAssembly.makeModule(context: .friend(profile),
+                                                    routeMap: self,
                                                     alertManager: alertManager,
                                                     accountManager: accountManager,
                                                     profilesManager: profilesManager)

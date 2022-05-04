@@ -189,6 +189,7 @@ private extension ProfileInfoViewController {
         settingsButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         menuButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -28).isActive = true
     }
     
     func setupActions() {

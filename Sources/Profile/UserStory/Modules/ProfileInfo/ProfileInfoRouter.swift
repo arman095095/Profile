@@ -12,6 +12,7 @@ import AlertManager
 protocol ProfileInfoRouterInput: AnyObject {
     func openBlockingMenu(blocked: Bool,
                           stringFactory: ProfileStringFactoryProtocol)
+    func openPostsModule(userID: String)
 }
 
 protocol ProfileInfoRouterOutput: AnyObject {
@@ -22,9 +23,20 @@ protocol ProfileInfoRouterOutput: AnyObject {
 final class ProfileInfoRouter {
     weak var transitionHandler: UIViewController?
     weak var output: ProfileInfoRouterOutput?
+    private let routeMap: RouteMapPrivate
+    
+    init(routeMap: RouteMapPrivate) {
+        self.routeMap = routeMap
+    }
 }
 
 extension ProfileInfoRouter: ProfileInfoRouterInput {
+
+    func openPostsModule(userID: String) {
+        let module = routeMap.postsModule(userID: userID)
+        transitionHandler?.navigationController?.pushViewController(module.view, animated: true)
+    }
+    
     func openBlockingMenu(blocked: Bool,
                           stringFactory: ProfileStringFactoryProtocol) {
         let message = blocked ? stringFactory.unblockSubtitle : stringFactory.blockSubtitle

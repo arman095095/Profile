@@ -60,12 +60,14 @@ final class ProfileInfoPresenter {
 extension ProfileInfoPresenter: ProfileInfoViewOutput {
 
     func viewWillAppear() {
-        view?.setupNavigationBar(on: false)
         guard let profileID = currentProfile?.id else { return }
         interactor.refreshProfileInfo(userID: profileID)
+        guard case .root = context else { return }
+        view?.setupNavigationBar(on: false)
     }
     
     func viewWillDisappear() {
+        guard case .root = context else { return }
         view?.setupNavigationBar(on: true)
     }
     
@@ -87,7 +89,8 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     }
     
     func showPosts() {
-        
+        guard let profileID = currentProfile?.id else { return }
+        router.openPostsModule(userID: profileID)
     }
 
     func showAccountSettings() {

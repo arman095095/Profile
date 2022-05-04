@@ -8,8 +8,7 @@
 
 import UIKit
 import Module
-
-public typealias ProfileModule = Module<ProfileModuleInput, ProfileModuleOutput>
+import ProfileRouteMap
 
 enum RootModuleWrapperAssembly {
     static func makeModule(routeMap: RouteMapPrivate, context: InputFlowContext) -> ProfileModule {

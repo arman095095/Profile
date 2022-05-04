@@ -20,7 +20,9 @@ private let localDependencies: [Package.Dependency] = [
     .package(path: "/Users/armancarhcan/Desktop/Workdir/Module"),
     .package(path: "/Users/armancarhcan/Desktop/Workdir/DesignSystem"),
     .package(path: "/Users/armancarhcan/Desktop/Workdir/AlertManager"),
-    .package(path: "/Users/armancarhcan/Desktop/Workdir/Utils")
+    .package(path: "/Users/armancarhcan/Desktop/Workdir/Utils"),
+    .package(path: "/Users/armancarhcan/Desktop/Workdir/ProfileRouteMap"),
+    .package(path: "/Users/armancarhcan/Desktop/Workdir/UserStoryFacade")
 ]
 
 let isDev = true
@@ -47,6 +49,8 @@ let package = Package(
                            .product(name: "Managers", package: "Managers"),
                            .product(name: "DesignSystem", package: "DesignSystem"),
                            .product(name: "AlertManager", package: "AlertManager"),
-                           .product(name: "Utils", package: "Utils")])
+                           .product(name: "Utils", package: "Utils"),
+                           .product(name: "ProfileRouteMap", package: "ProfileRouteMap"),
+                           .product(name: "UserStoryFacade", package: "UserStoryFacade")])
     ]
 )

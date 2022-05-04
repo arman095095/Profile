@@ -15,11 +15,12 @@ typealias ProfileInfoModule = Module<ProfileInfoModuleInput, ProfileInfoModuleOu
 
 enum ProfileInfoAssembly {
     static func makeModule(context: InputFlowContext,
+                           routeMap: RouteMapPrivate,
                            alertManager: AlertManagerProtocol,
                            accountManager: AccountManagerProtocol,
                            profilesManager: ProfilesManagerProtocol) -> ProfileInfoModule {
         let view = ProfileInfoViewController()
-        let router = ProfileInfoRouter()
+        let router = ProfileInfoRouter(routeMap: routeMap)
         let interactor = ProfileInfoInteractor(accountManager: accountManager,
                                                profilesManager: profilesManager)
         let stringFactory = ProfileStringFactory()

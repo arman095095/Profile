@@ -25,7 +25,7 @@ protocol ProfileStringFactoryProtocol {
 }
 
 struct ProfileStringFactory: ProfileStringFactoryProtocol {
-    var currentAccountTitle = "Ваш профиль"
+    var currentAccountTitle = "Профиль"
     var blockingTitle = "Блокировка"
     var menuButtonImageName = "menu2"
     var settingsButtonImageName = "settings2"
