@@ -8,6 +8,7 @@
 
 import UIKit
 import Managers
+import ModelInterfaces
 
 protocol ProfileInfoInteractorInput: AnyObject {
     func refreshProfileInfo(userID: String)

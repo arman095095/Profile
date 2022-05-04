@@ -9,6 +9,7 @@
 import UIKit
 import Managers
 import PostsRouteMap
+import ModelInterfaces
 
 protocol RouteMapPrivate: AnyObject {
     func currentAccountProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
