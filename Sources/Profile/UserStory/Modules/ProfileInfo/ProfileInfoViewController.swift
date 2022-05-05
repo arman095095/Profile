@@ -128,8 +128,8 @@ private extension ProfileInfoViewController {
         containerView.addSubview(settingsButton)
         containerView.addSubview(menuButton)
         
-        menuButton.setImage(UIImage(named: stringFactory.menuButtonImageName), for: .normal)
-        settingsButton.setImage(UIImage(named: stringFactory.settingsButtonImageName), for: .normal)
+        menuButton.setImage(UIImage(named: stringFactory.menuButtonImageName, in: Bundle.module, with: nil), for: .normal)
+        settingsButton.setImage(UIImage(named: stringFactory.settingsButtonImageName, in: Bundle.module, with: nil), for: .normal)
         buttonsView.setTitles(firstButtonTitle: stringFactory.postsButtonTitle,
                               secondButtonTitle: stringFactory.showButtonTitle)
         
