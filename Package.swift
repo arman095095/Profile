@@ -3,12 +3,9 @@
 
 import PackageDescription
 
-private var dependencies: [Package.Dependency] = [
+private let dependencies: [Package.Dependency] = [
     .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0"),
     .package(url: "https://github.com/SDWebImage/SDWebImage.git", from: "5.1.0")
-]
-
-private let remoteDependencies: [Package.Dependency] = [
     .package(url: "https://github.com/arman095095/Managers.git", branch: "develop"),
     .package(url: "https://github.com/arman095095/Module.git", branch: "develop"),
     .package(url: "https://github.com/arman095095/DesignSystem.git", branch: "develop"),
@@ -17,19 +14,6 @@ private let remoteDependencies: [Package.Dependency] = [
     .package(url: "https://github.com/arman095095/ProfileRouteMap.git", branch: "develop"),
     .package(url: "https://github.com/arman095095/UserStoryFacade.git", branch: "develop")
 ]
-
-private let localDependencies: [Package.Dependency] = [
-    .package(path: "../Managers"),
-    .package(path: "../Module"),
-    .package(path: "../DesignSystem"),
-    .package(path: "../AlertManager"),
-    .package(path: "../Utils"),
-    .package(path: "../ProfileRouteMap"),
-    .package(path: "../UserStoryFacade")
-]
-
-let isDev = true
-isDev ? dependencies.append(contentsOf: localDependencies) : dependencies.append(contentsOf: remoteDependencies)
 
 let package = Package(
     name: "Profile",
