@@ -40,7 +40,7 @@ extension ProfileUserStory: ProfileRouteMap {
 
 extension ProfileUserStory: RouteMapPrivate {
     func postsModule(userID: String) -> PostsModule {
-        guard let module = container.synchronize().resolve(UserStoryFacade.self)?.postsUserStory?.userPostsModule(userID: userID) else {
+        guard let module = container.synchronize().resolve(UserStoryFacadeProtocol.self)?.postsUserStory?.userPostsModule(userID: userID) else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         return module

@@ -8,12 +8,16 @@
 
 import UIKit
 import Swinject
+import ProfileRouteMap
+import UserStoryFacade
 
 public final class ProfileUserStoryAssembly: Assembly {
     
     public init() { }
 
     public func assemble(container: Container) {
-        //
+        container.register(ProfileRouteMap.self) { r in
+            ProfileUserStory(container: container)
+        }
     }
 }
