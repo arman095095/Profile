@@ -39,12 +39,12 @@ protocol ProfileInfoInteractorOutput: AnyObject {
 final class ProfileInfoInteractor {
     
     weak var output: ProfileInfoInteractorOutput?
-    private let accountManager: AccountManagerProtocol
+    private let communicationManager: CommunicationManagerProtocol
     private let profilesManager: ProfilesManagerProtocol
     
-    init(accountManager: AccountManagerProtocol,
+    init(communicationManager: CommunicationManagerProtocol,
          profilesManager: ProfilesManagerProtocol) {
-        self.accountManager = accountManager
+        self.communicationManager = communicationManager
         self.profilesManager = profilesManager
     }
 }
@@ -67,7 +67,7 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
     }
     
     func block(profileID: String) {
-        accountManager.blockProfile(profileID) { [weak self] result in
+        communicationManager.blockProfile(profileID) { [weak self] result in
             switch result {
             case .success:
                 self?.output?.successBlocked()
@@ -78,7 +78,7 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
     }
     
     func unblock(profileID: String) {
-        accountManager.unblockProfile(profileID) { [weak self] result in
+        communicationManager.unblockProfile(profileID) { [weak self] result in
             switch result {
             case .success:
                 self?.output?.successUnblocked()
@@ -89,6 +89,6 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
     }
     
     func isBlocked(profileID: String) -> Bool {
-        accountManager.isProfileBlocked(userID: profileID)
+        communicationManager.isProfileBlocked(userID: profileID)
     }
 }

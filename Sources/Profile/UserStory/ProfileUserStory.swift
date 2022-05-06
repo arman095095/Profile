@@ -57,14 +57,14 @@ extension ProfileUserStory: RouteMapPrivate {
     func currentAccountProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule {
         let safeResolver = container.synchronize()
         guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
-              let accountManager = safeResolver.resolve(AccountManagerProtocol.self),
+              let communicationManager = safeResolver.resolve(CommunicationManagerProtocol.self),
               let profilesManager = safeResolver.resolve(ProfilesManagerProtocol.self) else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         let module = ProfileInfoAssembly.makeModule(context: .root(profile),
                                                     routeMap: self,
                                                     alertManager: alertManager,
-                                                    accountManager: accountManager,
+                                                    communicationManager: communicationManager,
                                                     profilesManager: profilesManager)
         module.output = outputWrapper
         return module
@@ -73,14 +73,14 @@ extension ProfileUserStory: RouteMapPrivate {
     func someProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule {
         let safeResolver = container.synchronize()
         guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
-              let accountManager = safeResolver.resolve(AccountManagerProtocol.self),
+              let communicationManager = safeResolver.resolve(CommunicationManagerProtocol.self),
               let profilesManager = safeResolver.resolve(ProfilesManagerProtocol.self) else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         let module = ProfileInfoAssembly.makeModule(context: .some(profile),
                                                     routeMap: self,
                                                     alertManager: alertManager,
-                                                    accountManager: accountManager,
+                                                    communicationManager: communicationManager,
                                                     profilesManager: profilesManager)
         module.output = outputWrapper
         return module

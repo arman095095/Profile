@@ -17,11 +17,11 @@ enum ProfileInfoAssembly {
     static func makeModule(context: InputFlowContext,
                            routeMap: RouteMapPrivate,
                            alertManager: AlertManagerProtocol,
-                           accountManager: AccountManagerProtocol,
+                           communicationManager: CommunicationManagerProtocol,
                            profilesManager: ProfilesManagerProtocol) -> ProfileInfoModule {
         let view = ProfileInfoViewController()
         let router = ProfileInfoRouter(routeMap: routeMap)
-        let interactor = ProfileInfoInteractor(accountManager: accountManager,
+        let interactor = ProfileInfoInteractor(communicationManager: communicationManager,
                                                profilesManager: profilesManager)
         let stringFactory = ProfileStringFactory()
         let presenter = ProfileInfoPresenter(router: router,
