@@ -13,10 +13,7 @@ import ModelInterfaces
 
 protocol RouteMapPrivate: AnyObject {
     func currentAccountProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
-    func friendProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
+    func someProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
     func postsModule(userID: String) -> PostsModule
     func currentAccountPostsModule(userID: String) -> PostsModule
-    func recievedOfferProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
-    func sendOfferProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
-    func sendOfferListProfileModule() -> ProfileInfoModule
 }

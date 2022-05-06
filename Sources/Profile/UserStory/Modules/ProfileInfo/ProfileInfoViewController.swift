@@ -11,15 +11,10 @@ import DesignSystem
 
 protocol ProfileInfoViewInput: AnyObject {
     func setupInitialStateFriendProfile(stringFactory: ProfileStringFactoryProtocol)
-
     func setupInitialStateCurrentAccount(stringFactory: ProfileStringFactoryProtocol)
-    
     func setupInitialStateRecievedOffer(stringFactory: ProfileStringFactoryProtocol)
-    
     func setupInitialStateSendOffer(stringFactory: ProfileStringFactoryProtocol)
-
     func setupNavigationBar(on: Bool)
-
     func fillInfo(with viewModel: ProfileInfoViewModelProtocol)
 }
 

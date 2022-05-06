@@ -38,3 +38,17 @@ extension ProfileModel: ProfileInfoViewModelProtocol {
         "\(self.country), \(self.city)"
     }
 }
+
+final class RemovedProfileViewModel: ProfileInfoViewModelProtocol {
+    var title: String = "Профиль удален"
+    var imageURL: URL? = URL(string: "https://okeygeek.ru/wp-content/uploads/2017/07/sobaka.jpg")
+    var nameAndAge: String = "DELETED"
+    var countryCity: String = ""
+    var info: String = "Пользователь удалил свой профиль"
+    var postsCount: Int = 0
+    var id: String
+    
+    init(id: String) {
+        self.id = id
+    }
+}

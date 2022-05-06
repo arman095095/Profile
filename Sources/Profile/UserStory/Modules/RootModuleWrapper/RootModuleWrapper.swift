@@ -26,14 +26,8 @@ final class RootModuleWrapper {
         switch flow {
         case .root(let profile):
             module = routeMap.currentAccountProfileModule(profile: profile)
-        case .friend(let profile):
-            module = routeMap.friendProfileModule(profile: profile)
-        case .recievedOffer(let profile):
-            module = routeMap.recievedOfferProfileModule(profile: profile)
-        case .sendOfferList:
-            module = routeMap.sendOfferListProfileModule()
-        case .sendOffer(let profile):
-            module = routeMap.sendOfferProfileModule(profile: profile)
+        case .some(let profile):
+            module = routeMap.someProfileModule(profile: profile)
         }
         module.output = self
         return module.view

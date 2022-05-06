@@ -10,17 +10,24 @@ import UIKit
 import Managers
 import ModelInterfaces
 
+enum ProfileState {
+    case friend
+    case alreadySended
+    case send
+    case request
+    case currentAccount
+    case removed
+}
+
 protocol ProfileInfoInteractorInput: AnyObject {
     func refreshProfileInfo(userID: String)
     func isBlocked(profileID: String) -> Bool
     func block(profileID: String)
     func unblock(profileID: String)
-    func requestFirstProfiles()
+    func determinateState(with userID: String) -> ProfileState
 }
 
 protocol ProfileInfoInteractorOutput: AnyObject {
-    func successLoaded(profiles: [ProfileModelProtocol])
-    func failureLoaded(message: String)
     func successBlocked()
     func successUnblocked()
     func failureBlock(message: String)
@@ -44,15 +51,8 @@ final class ProfileInfoInteractor {
 
 extension ProfileInfoInteractor: ProfileInfoInteractorInput {
 
-    func requestFirstProfiles() {
-        profilesManager.getFirstProfiles { [weak self] result in
-            switch result {
-            case .success(let profiles):
-                self?.output?.successLoaded(profiles: profiles)
-            case .failure(let error):
-                self?.output?.failureLoaded(message: error.localizedDescription)
-            }
-        }
+    func determinateState(with userID: String) -> ProfileState {
+        return .friend
     }
     
     func refreshProfileInfo(userID: String) {
