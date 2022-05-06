@@ -30,8 +30,8 @@ final class ProfileInfoViewController: UIViewController {
         button.tintColor = UIColor.mainApp()
         return button
     }()
-    private let imageView: UIImageView = {
-        let view =  UIImageView()
+    private let imageView: ImageView = {
+        let view =  ImageView()
         view.contentMode = .scaleAspectFill
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -104,7 +104,7 @@ extension ProfileInfoViewController: ProfileInfoViewInput {
     }
     
     func fillInfo(with viewModel: ProfileInfoViewModelProtocol) {
-        imageView.sd_setImage(with: viewModel.imageURL, completed: nil)
+        imageView.set(imageURL: viewModel.imageURL)
         nameLabel.text = viewModel.nameAndAge
         countryCityLabel.text = viewModel.countryCity
         userInfoLabel.text = viewModel.info
