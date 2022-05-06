@@ -10,14 +10,27 @@ import UIKit
 import DesignSystem
 
 protocol ProfileInfoViewInput: AnyObject {
-    func setupInitialStateForCurrent(stringFactory: ProfileStringFactoryProtocol)
-    func setupInitialStateForFriend(stringFactory: ProfileStringFactoryProtocol)
+    func setupInitialStateFriendProfile(stringFactory: ProfileStringFactoryProtocol)
+
+    func setupInitialStateCurrentAccount(stringFactory: ProfileStringFactoryProtocol)
+    
+    func setupInitialStateRecievedOffer(stringFactory: ProfileStringFactoryProtocol)
+    
+    func setupInitialStateSendOffer(stringFactory: ProfileStringFactoryProtocol)
+
     func setupNavigationBar(on: Bool)
+
     func fillInfo(with viewModel: ProfileInfoViewModelProtocol)
 }
 
 final class ProfileInfoViewController: UIViewController {
+
     var output: ProfileInfoViewOutput?
+
+    private let acceptButton = ButtonsFactory.acceptButton
+    private let denyButton = ButtonsFactory.denyButton
+    private var buttonsStackView = UIStackView()
+
     private let settingsButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +78,6 @@ final class ProfileInfoViewController: UIViewController {
         return view
     }()
     private let buttonsView = ButtonsView()
-    private var constraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,17 +101,31 @@ extension ProfileInfoViewController: ProfileInfoViewInput {
         navigationController?.setNavigationBarHidden(!on, animated: true)
     }
     
-    func setupInitialStateForFriend(stringFactory: ProfileStringFactoryProtocol) {
-        setupViews(stringFactory: stringFactory)
-        setupConstraints(current: false)
-        addKeyboardObservers()
+    func setupInitialStateFriendProfile(stringFactory: ProfileStringFactoryProtocol) {
+        setupViewsForShow(stringFactory: stringFactory)
+        setupConstraints()
+        constraintsForFriendProfile()
         setupActions()
     }
 
-    func setupInitialStateForCurrent(stringFactory: ProfileStringFactoryProtocol) {
-        setupViews(stringFactory: stringFactory)
-        setupConstraints(current: true)
-        addKeyboardObservers()
+    func setupInitialStateCurrentAccount(stringFactory: ProfileStringFactoryProtocol) {
+        setupViewsForShow(stringFactory: stringFactory)
+        setupConstraints()
+        constraintsForYourProfile()
+        setupActions()
+    }
+    
+    func setupInitialStateRecievedOffer(stringFactory: ProfileStringFactoryProtocol) {
+        setupViewsForOffersRecieve(stringFactory: stringFactory)
+        setupConstraints()
+        constraintsForOffers()
+        setupActions()
+    }
+    
+    func setupInitialStateSendOffer(stringFactory: ProfileStringFactoryProtocol) {
+        setupViewsForOffersSend(stringFactory: stringFactory)
+        setupConstraints()
+        constraintsForOffers()
         setupActions()
     }
     
@@ -114,7 +140,7 @@ extension ProfileInfoViewController: ProfileInfoViewInput {
 
 private extension ProfileInfoViewController {
     
-    func setupViews(stringFactory: ProfileStringFactoryProtocol) {
+    func setupViewsForShow(stringFactory: ProfileStringFactoryProtocol) {
         navigationItem.title = stringFactory.currentAccountTitle
         navigationController?.navigationBar.barTintColor = .systemGray6
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -136,14 +162,32 @@ private extension ProfileInfoViewController {
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setupConstraints(current: Bool) {
-        
+    func setupViewsForOffersSend(stringFactory: ProfileStringFactoryProtocol) {
+        acceptButton.setTitle(stringFactory.acceptSendedButtonTitle, for: .normal)
+        denyButton.setTitle(stringFactory.denySendedButtonTitle, for: .normal)
+        setupViewsForShow(stringFactory: stringFactory)
+        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsStackView = UIStackView(arrangedSubviews: [acceptButton,denyButton], spacing: 8, axis: .horizontal)
+        buttonsStackView.distribution = .fillEqually
+        containerView.addSubview(buttonsStackView)
+    }
+    
+    func setupViewsForOffersRecieve(stringFactory: ProfileStringFactoryProtocol) {
+        acceptButton.setTitle(stringFactory.acceptRecievedButtonTitle, for: .normal)
+        denyButton.setTitle(stringFactory.denyRecievedButtonTitle, for: .normal)
+        setupViewsForShow(stringFactory: stringFactory)
+        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsStackView = UIStackView(arrangedSubviews: [acceptButton,denyButton], spacing: 8, axis: .horizontal)
+        buttonsStackView.distribution = .fillEqually
+        containerView.addSubview(buttonsStackView)
+    }
+    
+    func setupConstraints() {
         imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         
-        constraint = containerView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        constraint.isActive = true
+        containerView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         containerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         containerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         
@@ -172,8 +216,9 @@ private extension ProfileInfoViewController {
         buttonsView.topAnchor.constraint(equalTo: userInfoLabel.bottomAnchor, constant: 20).isActive = true
         buttonsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30).isActive = true
         buttonsView.heightAnchor.constraint(equalToConstant: Constants.buttonFont.lineHeight).isActive = true
-        current ? constraintsForYourProfile() : constraintsForFriendProfile()
         imageView.bottomAnchor.constraint(equalTo: self.containerView.topAnchor, constant: 100).isActive = true
+        buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -28).isActive = true
+        
     }
     
     func constraintsForYourProfile() {
@@ -181,7 +226,6 @@ private extension ProfileInfoViewController {
         menuButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 28).isActive = true
-        buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -28).isActive = true
     }
     
     func constraintsForFriendProfile() {
@@ -189,7 +233,13 @@ private extension ProfileInfoViewController {
         settingsButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         menuButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -28).isActive = true
+    }
+    
+    func constraintsForOffers() {
+        buttonsStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor,constant: 20).isActive = true
+        buttonsStackView.topAnchor.constraint(equalTo: buttonsView.bottomAnchor,constant: 15).isActive = true
+        buttonsStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,constant: -20).isActive = true
+        buttonsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
     
     func setupActions() {
@@ -197,11 +247,8 @@ private extension ProfileInfoViewController {
         buttonsView.secondButton.addTarget(self, action: #selector(showPostsTapped), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(setupProfileTapped), for: .touchUpInside)
         menuButton.addTarget(self, action: #selector(menuOpenTapped), for: .touchUpInside)
-    }
-    
-    func addKeyboardObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        acceptButton.addTarget(self, action: #selector(acceptTapped), for: .touchUpInside)
+        denyButton.addTarget(self, action: #selector(denyTapped), for: .touchUpInside)
     }
     
     @objc func showPostsTapped() {
@@ -216,17 +263,11 @@ private extension ProfileInfoViewController {
         output?.showMenu()
     }
     
-    @objc func keyboard(notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardHeight = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height else { return }
-        if notification.name == UIResponder.keyboardWillShowNotification {
-            constraint.constant -= keyboardHeight - 25 - view.safeAreaInsets.bottom
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
-        } else if notification.name == UIResponder.keyboardWillHideNotification {
-            constraint.constant = 0
-            view.layoutIfNeeded()
-        } else { return }
+    @objc func denyTapped() {
+        output?.denyAction()
+    }
+    
+    @objc func acceptTapped() {
+        output?.acceptAction()
     }
 }

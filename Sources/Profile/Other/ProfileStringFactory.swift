@@ -22,9 +22,17 @@ protocol ProfileStringFactoryProtocol {
     var blockingTitle: String { get }
     var successBlockedMessage: String { get }
     var successUnblockedMessage: String { get }
+    var acceptRecievedButtonTitle: String { get }
+    var denyRecievedButtonTitle: String { get }
+    var acceptSendedButtonTitle: String { get }
+    var denySendedButtonTitle: String { get }
 }
 
 struct ProfileStringFactory: ProfileStringFactoryProtocol {
+    var acceptRecievedButtonTitle = "Принять"
+    var denyRecievedButtonTitle = "Отклонить"
+    var acceptSendedButtonTitle = "Запросить"
+    var denySendedButtonTitle = "Игнорировать"
     var currentAccountTitle = "Профиль"
     var blockingTitle = "Блокировка"
     var menuButtonImageName = "menu2"

@@ -24,6 +24,8 @@ protocol ProfileInfoViewOutput: AnyObject {
     func showPosts()
     func showAccountSettings()
     func showMenu()
+    func denyAction()
+    func acceptAction()
 }
 
 enum InputFlowContext {
@@ -59,7 +61,7 @@ final class ProfileInfoPresenter {
 }
 
 extension ProfileInfoPresenter: ProfileInfoViewOutput {
-
+    
     func viewWillAppear() {
         guard let profileID = currentProfile?.id else { return }
         interactor.refreshProfileInfo(userID: profileID)
@@ -75,17 +77,30 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     func viewDidLoad() {
         switch context {
         case .root(let dto):
-            view?.setupInitialStateForCurrent(stringFactory: stringFactory)
+            view?.setupInitialStateCurrentAccount(stringFactory: stringFactory)
             guard let model = dto as? ProfileInfoViewModelProtocol else { return }
             currentProfile = model
             view?.fillInfo(with: model)
         case .friend(let dto):
-            view?.setupInitialStateForFriend(stringFactory: stringFactory)
+            view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
             guard let model = dto as? ProfileInfoViewModelProtocol else { return }
             currentProfile = model
             view?.fillInfo(with: model)
-        default:
-            break
+        case .recievedOffer(let dto):
+            view?.setupInitialStateRecievedOffer(stringFactory: stringFactory)
+            guard let model = dto as? ProfileInfoViewModelProtocol else { return }
+            currentProfile = model
+            view?.fillInfo(with: model)
+        case .sendOfferList(let dto):
+            view?.setupInitialStateSendOffer(stringFactory: stringFactory)
+            guard let model = dto as? ProfileInfoViewModelProtocol else { return }
+            currentProfile = model
+            view?.fillInfo(with: model)
+        case .sendOffer(let dto):
+            view?.setupInitialStateSendOffer(stringFactory: stringFactory)
+            guard let model = dto as? ProfileInfoViewModelProtocol else { return }
+            currentProfile = model
+            view?.fillInfo(with: model)
         }
     }
     
@@ -106,6 +121,14 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
         guard let profileID = currentProfile?.id else { return }
         let isBlocked = interactor.isBlocked(profileID: profileID)
         router.openBlockingMenu(blocked: isBlocked, stringFactory: stringFactory)
+    }
+    
+    func denyAction() {
+        //
+    }
+    
+    func acceptAction() {
+        //
     }
 }
 
