@@ -29,11 +29,11 @@ final class RootModuleWrapper {
         case .friend(let profile):
             module = routeMap.friendProfileModule(profile: profile)
         case .recievedOffer(let profile):
-            module = routeMap.friendProfileModule(profile: profile)
-        case .sendOfferList(let profile):
-            module = routeMap.friendProfileModule(profile: profile)
+            module = routeMap.recievedOfferProfileModule(profile: profile)
+        case .sendOfferList:
+            module = routeMap.sendOfferListProfileModule()
         case .sendOffer(let profile):
-            module = routeMap.friendProfileModule(profile: profile)
+            module = routeMap.sendOfferProfileModule(profile: profile)
         }
         module.output = self
         return module.view

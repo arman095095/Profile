@@ -25,6 +25,25 @@ public final class ProfileUserStory {
 }
 
 extension ProfileUserStory: ProfileRouteMap {
+
+    public func offerSendProfile(profile: ProfileModelProtocol) -> ProfileModule {
+        let module = RootModuleWrapperAssembly.makeModule(routeMap: self, context: .sendOffer(profile))
+        outputWrapper = module.input as? RootModuleWrapper
+        return module
+    }
+    
+    public func offerRecieveProfile(profile: ProfileModelProtocol) -> ProfileModule {
+        let module = RootModuleWrapperAssembly.makeModule(routeMap: self, context: .recievedOffer(profile))
+        outputWrapper = module.input as? RootModuleWrapper
+        return module
+    }
+    
+    public func offersSendingProfilesList() -> ProfileModule {
+        let module = RootModuleWrapperAssembly.makeModule(routeMap: self, context: .sendOfferList)
+        outputWrapper = module.input as? RootModuleWrapper
+        return module
+    }
+    
     public func friendAccountModule(profile: ProfileModelProtocol) -> ProfileModule {
         let module = RootModuleWrapperAssembly.makeModule(routeMap: self, context: .friend(profile))
         outputWrapper = module.input as? RootModuleWrapper
@@ -40,6 +59,54 @@ extension ProfileUserStory: ProfileRouteMap {
 
 extension ProfileUserStory: RouteMapPrivate {
 
+    func recievedOfferProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule {
+        let safeResolver = container.synchronize()
+        guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
+              let accountManager = safeResolver.resolve(AccountManagerProtocol.self),
+              let profilesManager = safeResolver.resolve(ProfilesManagerProtocol.self) else {
+            fatalError(ErrorMessage.dependency.localizedDescription)
+        }
+        let module = ProfileInfoAssembly.makeModule(context: .recievedOffer(profile),
+                                                    routeMap: self,
+                                                    alertManager: alertManager,
+                                                    accountManager: accountManager,
+                                                    profilesManager: profilesManager)
+        module.output = outputWrapper
+        return module
+    }
+    
+    func sendOfferProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule {
+        let safeResolver = container.synchronize()
+        guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
+              let accountManager = safeResolver.resolve(AccountManagerProtocol.self),
+              let profilesManager = safeResolver.resolve(ProfilesManagerProtocol.self) else {
+            fatalError(ErrorMessage.dependency.localizedDescription)
+        }
+        let module = ProfileInfoAssembly.makeModule(context: .sendOffer(profile),
+                                                    routeMap: self,
+                                                    alertManager: alertManager,
+                                                    accountManager: accountManager,
+                                                    profilesManager: profilesManager)
+        module.output = outputWrapper
+        return module
+    }
+    
+    func sendOfferListProfileModule() -> ProfileInfoModule {
+        let safeResolver = container.synchronize()
+        guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
+              let accountManager = safeResolver.resolve(AccountManagerProtocol.self),
+              let profilesManager = safeResolver.resolve(ProfilesManagerProtocol.self) else {
+            fatalError(ErrorMessage.dependency.localizedDescription)
+        }
+        let module = ProfileInfoAssembly.makeModule(context: .sendOfferList,
+                                                    routeMap: self,
+                                                    alertManager: alertManager,
+                                                    accountManager: accountManager,
+                                                    profilesManager: profilesManager)
+        module.output = outputWrapper
+        return module
+    }
+    
     func currentAccountPostsModule(userID: String) -> PostsModule {
         guard let module = container.synchronize().resolve(UserStoryFacadeProtocol.self)?.postsUserStory?.currentAccountPostsModule(userID: userID) else {
             fatalError(ErrorMessage.dependency.localizedDescription)

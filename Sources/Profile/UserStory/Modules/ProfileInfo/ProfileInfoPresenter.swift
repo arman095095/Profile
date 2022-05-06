@@ -32,7 +32,7 @@ enum InputFlowContext {
     case root(ProfileModelProtocol)
     case friend(ProfileModelProtocol)
     case recievedOffer(ProfileModelProtocol)
-    case sendOfferList(ProfileModelProtocol)
+    case sendOfferList
     case sendOffer(ProfileModelProtocol)
 }
 
@@ -46,6 +46,7 @@ final class ProfileInfoPresenter {
     private let alertManager: AlertManagerProtocol
     private let stringFactory: ProfileStringFactoryProtocol
     private var currentProfile: ProfileInfoViewModelProtocol?
+    private var profiles: [ProfileInfoViewModelProtocol]?
     
     init(router: ProfileInfoRouterInput,
          interactor: ProfileInfoInteractorInput,
@@ -91,11 +92,9 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
             guard let model = dto as? ProfileInfoViewModelProtocol else { return }
             currentProfile = model
             view?.fillInfo(with: model)
-        case .sendOfferList(let dto):
+        case .sendOfferList:
             view?.setupInitialStateSendOffer(stringFactory: stringFactory)
-            guard let model = dto as? ProfileInfoViewModelProtocol else { return }
-            currentProfile = model
-            view?.fillInfo(with: model)
+            interactor.requestFirstProfiles()
         case .sendOffer(let dto):
             view?.setupInitialStateSendOffer(stringFactory: stringFactory)
             guard let model = dto as? ProfileInfoViewModelProtocol else { return }
@@ -124,11 +123,35 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     }
     
     func denyAction() {
-        //
+        switch context {
+        case .recievedOffer(_):
+            //TO DO
+            break
+        case .sendOfferList:
+            //TO DO
+            break
+        case .sendOffer(_):
+            //TO DO
+            break
+        default:
+            break
+        }
     }
     
     func acceptAction() {
-        //
+        switch context {
+        case .recievedOffer(_):
+            //TO DO
+            break
+        case .sendOfferList:
+            //TO DO
+            break
+        case .sendOffer(_):
+            //TO DO
+            break
+        default:
+            break
+        }
     }
 }
 
@@ -145,6 +168,19 @@ extension ProfileInfoPresenter: ProfileInfoRouterOutput {
 }
 
 extension ProfileInfoPresenter: ProfileInfoInteractorOutput {
+    func successLoaded(profiles: [ProfileModelProtocol]) {
+        guard case .sendOfferList = context,
+              let first = profiles.first as? ProfileInfoViewModelProtocol else { return }
+        self.profiles = profiles as? [ProfileInfoViewModelProtocol]
+        self.currentProfile = first
+        view?.fillInfo(with: first)
+    }
+    
+    func failureLoaded(message: String) {
+        guard case .sendOfferList = context else { return }
+        alertManager.present(type: .error, title: message)
+    }
+    
     func successResponse(profile: ProfileModelProtocol) {
         guard let model = profile as? ProfileInfoViewModelProtocol else { return }
         currentProfile = model

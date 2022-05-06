@@ -15,9 +15,12 @@ protocol ProfileInfoInteractorInput: AnyObject {
     func isBlocked(profileID: String) -> Bool
     func block(profileID: String)
     func unblock(profileID: String)
+    func requestFirstProfiles()
 }
 
 protocol ProfileInfoInteractorOutput: AnyObject {
+    func successLoaded(profiles: [ProfileModelProtocol])
+    func failureLoaded(message: String)
     func successBlocked()
     func successUnblocked()
     func failureBlock(message: String)
@@ -40,6 +43,18 @@ final class ProfileInfoInteractor {
 }
 
 extension ProfileInfoInteractor: ProfileInfoInteractorInput {
+
+    func requestFirstProfiles() {
+        profilesManager.getFirstProfiles { [weak self] result in
+            switch result {
+            case .success(let profiles):
+                self?.output?.successLoaded(profiles: profiles)
+            case .failure(let error):
+                self?.output?.failureLoaded(message: error.localizedDescription)
+            }
+        }
+    }
+    
     func refreshProfileInfo(userID: String) {
         profilesManager.getProfile(userID: userID) { [weak self] result in
             switch result {
