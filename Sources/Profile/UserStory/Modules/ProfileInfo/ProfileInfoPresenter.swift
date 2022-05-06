@@ -91,7 +91,11 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     
     func showPosts() {
         guard let profileID = currentProfile?.id else { return }
-        router.openPostsModule(userID: profileID)
+        guard case .root = context else {
+            router.openPostsModule(userID: profileID)
+            return
+        }
+        router.openCurrentAccountPostsModule(userID: profileID)
     }
 
     func showAccountSettings() {

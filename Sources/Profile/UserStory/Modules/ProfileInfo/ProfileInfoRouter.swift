@@ -13,6 +13,7 @@ protocol ProfileInfoRouterInput: AnyObject {
     func openBlockingMenu(blocked: Bool,
                           stringFactory: ProfileStringFactoryProtocol)
     func openPostsModule(userID: String)
+    func openCurrentAccountPostsModule(userID: String)
 }
 
 protocol ProfileInfoRouterOutput: AnyObject {
@@ -31,6 +32,11 @@ final class ProfileInfoRouter {
 }
 
 extension ProfileInfoRouter: ProfileInfoRouterInput {
+
+    func openCurrentAccountPostsModule(userID: String) {
+        let module = routeMap.currentAccountPostsModule(userID: userID)
+        transitionHandler?.navigationController?.pushViewController(module.view, animated: true)
+    }
 
     func openPostsModule(userID: String) {
         let module = routeMap.postsModule(userID: userID)
