@@ -77,32 +77,7 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     }
     
     func viewDidLoad() {
-        switch context {
-        case .root(let profile):
-            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
-            self.profile = model
-            view?.setupInitialStateCurrentAccount(stringFactory: stringFactory)
-        case .some(let profile):
-            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
-            let state = interactor.determinateState(with: profile)
-            self.state = state
-            self.profile = model
-            switch state {
-            case .friend:
-                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
-            case .alreadySended:
-                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
-            case .send:
-                view?.setupInitialStateSendOffer(stringFactory: stringFactory)
-            case .request:
-                view?.setupInitialStateRecievedOffer(stringFactory: stringFactory)
-            case .removed:
-                self.profile = RemovedProfileViewModel(id: profile.id)
-                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
-            }
-        }
-        guard let profile = self.profile else { return }
-        view?.fillInfo(with: profile)
+        setupState()
     }
     
     func showPosts() {
@@ -170,9 +145,7 @@ extension ProfileInfoPresenter: ProfileInfoRouterOutput {
 extension ProfileInfoPresenter: ProfileInfoInteractorOutput {
     
     func successResponse(profile: ProfileModelProtocol) {
-        guard let model = profile as? ProfileInfoViewModelProtocol else { return }
-        self.profile = model
-        view?.fillInfo(with: model)
+        setupState(with: profile)
     }
     
     func failureProfileResponse(message: String) {
@@ -198,4 +171,54 @@ extension ProfileInfoPresenter: ProfileInfoInteractorOutput {
 
 extension ProfileInfoPresenter: ProfileInfoModuleInput {
     
+}
+
+private extension ProfileInfoPresenter {
+    func setupState() {
+        switch context {
+        case .root(let profile):
+            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
+            self.profile = model
+            view?.setupInitialStateCurrentAccount(stringFactory: stringFactory)
+        case .some(let profile):
+            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
+            let state = interactor.determinateState(with: profile)
+            self.state = state
+            self.profile = model
+            switch state {
+            case .friend:
+                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
+            case .alreadySended:
+                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
+            case .send:
+                view?.setupInitialStateSendOffer(stringFactory: stringFactory)
+            case .request:
+                view?.setupInitialStateRecievedOffer(stringFactory: stringFactory)
+            case .removed:
+                self.profile = RemovedProfileViewModel(id: profile.id)
+                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
+            }
+        }
+        guard let profile = self.profile else { return }
+        view?.fillInfo(with: profile)
+    }
+    
+    func setupState(with updatedProfile: ProfileModelProtocol) {
+        switch context {
+        case .root:
+            guard let model = updatedProfile as? ProfileInfoViewModelProtocol else { return }
+            self.profile = model
+        case .some:
+            guard let model = updatedProfile as? ProfileInfoViewModelProtocol else { return }
+            self.profile = model
+            switch state {
+            case .removed:
+                self.profile = RemovedProfileViewModel(id: updatedProfile.id)
+            default:
+                break
+            }
+        }
+        guard let profile = self.profile else { return }
+        view?.fillInfo(with: profile)
+    }
 }
