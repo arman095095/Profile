@@ -49,6 +49,7 @@ extension ProfileUserStory: RouteMapPrivate {
             .rootModule() else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
+        module.output = outputWrapper?.output as? SettingsModuleOutput
         return module
     }
     
