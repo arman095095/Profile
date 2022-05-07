@@ -9,6 +9,7 @@
 import Managers
 import Utils
 import Foundation
+import ModelInterfaces
 
 protocol ProfileInfoViewModelProtocol {
     var title: String { get }
@@ -16,39 +17,46 @@ protocol ProfileInfoViewModelProtocol {
     var nameAndAge: String { get }
     var countryCity: String { get }
     var info: String { get }
-    var postsCount: Int { get }
+    var postsCount: String { get }
     var id: String { get }
 }
 
-extension ProfileModel: ProfileInfoViewModelProtocol {
-
-    var title: String {
-        self.userName
-    }
+final class ProfileInfoViewModel {
     
-    var imageURL: URL? {
-        URL(string: self.imageUrl)
-    }
+    private var profile: ProfileModelProtocol
     
-    var nameAndAge: String {
-        "\(self.userName), \(DateFormatService().getAge(date: self.birthday))"
-    }
-    
-    var countryCity: String {
-        "\(self.country), \(self.city)"
+    init(profile: ProfileModelProtocol) {
+        self.profile = profile
     }
 }
 
-final class RemovedProfileViewModel: ProfileInfoViewModelProtocol {
-    var title: String = "Профиль удален"
-    var imageURL: URL? = URL(string: "https://okeygeek.ru/wp-content/uploads/2017/07/sobaka.jpg")
-    var nameAndAge: String = "DELETED"
-    var countryCity: String = ""
-    var info: String = "Пользователь удалил свой профиль"
-    var postsCount: Int = 0
-    var id: String
+extension ProfileInfoViewModel: ProfileInfoViewModelProtocol {
     
-    init(id: String) {
-        self.id = id
+    var info: String {
+        !profile.removed ? profile.info : RemovedProfileConstants.info.rawValue
+    }
+    
+    var postsCount: String {
+        !profile.removed ? String(profile.postsCount) : RemovedProfileConstants.postsCount.rawValue
+    }
+    
+    var id: String {
+        profile.id
+    }
+    
+    var title: String {
+        !profile.removed ? profile.userName : RemovedProfileConstants.title.rawValue
+    }
+    
+    var imageURL: URL? {
+        !profile.removed ? URL(string: profile.imageUrl): URL(string: RemovedProfileConstants.imageURL.rawValue)
+    }
+    
+    var nameAndAge: String {
+        !profile.removed ? "\(profile.userName), \(DateFormatService().getAge(date: profile.birthday))" : RemovedProfileConstants.name.rawValue
+    }
+    
+    var countryCity: String {
+        "\(profile.country), \(profile.city)"
     }
 }

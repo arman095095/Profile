@@ -77,7 +77,7 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     }
     
     func viewDidLoad() {
-        setupState()
+        setupInitialState()
     }
     
     func showPosts() {
@@ -145,7 +145,7 @@ extension ProfileInfoPresenter: ProfileInfoRouterOutput {
 extension ProfileInfoPresenter: ProfileInfoInteractorOutput {
     
     func successResponse(profile: ProfileModelProtocol) {
-        setupState(with: profile)
+        setupUpdatedState(with: profile)
     }
     
     func failureProfileResponse(message: String) {
@@ -174,50 +174,29 @@ extension ProfileInfoPresenter: ProfileInfoModuleInput {
 }
 
 private extension ProfileInfoPresenter {
-    func setupState() {
+    func setupInitialState() {
         switch context {
         case .root(let profile):
-            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
-            self.profile = model
+            self.profile = ProfileInfoViewModel(profile: profile)
             view?.setupInitialStateCurrentAccount(stringFactory: stringFactory)
         case .some(let profile):
-            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
-            let state = interactor.determinateState(with: profile)
-            self.state = state
-            self.profile = model
+            self.state = interactor.determinateState(with: profile)
+            self.profile = ProfileInfoViewModel(profile: profile)
             switch state {
-            case .friend:
-                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
-            case .alreadySended:
+            case .friend, .removed, .none, .alreadySended:
                 view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
             case .nothing:
                 view?.setupInitialStateSendOffer(stringFactory: stringFactory)
             case .wait:
                 view?.setupInitialStateRecievedOffer(stringFactory: stringFactory)
-            case .removed:
-                self.profile = RemovedProfileViewModel(id: profile.id)
-                view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
             }
         }
         guard let profile = self.profile else { return }
         view?.fillInfo(with: profile)
     }
     
-    func setupState(with updatedProfile: ProfileModelProtocol) {
-        switch context {
-        case .root:
-            guard let model = updatedProfile as? ProfileInfoViewModelProtocol else { return }
-            self.profile = model
-        case .some:
-            guard let model = updatedProfile as? ProfileInfoViewModelProtocol else { return }
-            self.profile = model
-            switch state {
-            case .removed:
-                self.profile = RemovedProfileViewModel(id: updatedProfile.id)
-            default:
-                break
-            }
-        }
+    func setupUpdatedState(with profile: ProfileModelProtocol) {
+        self.profile = ProfileInfoViewModel(profile: profile)
         guard let profile = self.profile else { return }
         view?.fillInfo(with: profile)
     }
