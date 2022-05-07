@@ -31,8 +31,8 @@ protocol ProfileStringFactoryProtocol {
 struct ProfileStringFactory: ProfileStringFactoryProtocol {
     var acceptRecievedButtonTitle = "Принять"
     var denyRecievedButtonTitle = "Отклонить"
-    var acceptSendedButtonTitle = "Запросить"
-    var denySendedButtonTitle = "Игнорировать"
+    var acceptSendedButtonTitle = "Лайк"
+    var denySendedButtonTitle = "Пропустить"
     var currentAccountTitle = "Профиль"
     var blockingTitle = "Блокировка"
     var menuButtonImageName = "menu2"

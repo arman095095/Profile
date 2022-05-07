@@ -212,11 +212,10 @@ private extension ProfileInfoViewController {
         buttonsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30).isActive = true
         buttonsView.heightAnchor.constraint(equalToConstant: Constants.buttonFont.lineHeight).isActive = true
         imageView.bottomAnchor.constraint(equalTo: self.containerView.topAnchor, constant: 100).isActive = true
-        buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -28).isActive = true
-        
     }
     
     func constraintsForYourProfile() {
+        buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -28).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 0).isActive = true
         menuButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
@@ -224,6 +223,7 @@ private extension ProfileInfoViewController {
     }
     
     func constraintsForFriendProfile() {
+        buttonsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -28).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 0).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
