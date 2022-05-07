@@ -13,8 +13,8 @@ import ModelInterfaces
 enum ProfileState {
     case friend
     case alreadySended
-    case send
-    case request
+    case nothing
+    case wait
     case removed
 }
 
@@ -74,12 +74,12 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
             return .friend
         }
         if communicationManager.isProfileWaiting(userID: profile.id) {
-            return .request
+            return .wait
         }
         if communicationManager.isProfileRequested(userID: profile.id) {
             return .alreadySended
         }
-        return .send
+        return .nothing
     }
     
     func refreshProfileInfo(userID: String) {

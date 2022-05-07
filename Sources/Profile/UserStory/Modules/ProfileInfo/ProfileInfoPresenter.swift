@@ -104,9 +104,9 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
               let state = state,
               let profile = profile else { return }
         switch state {
-        case .send:
+        case .nothing:
             output?.ignoredProfile?()
-        case .request:
+        case .wait:
             interactor.denyRequest(userID: profile.id)
             output?.deniedProfile?()
         default:
@@ -118,10 +118,10 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
         guard case .some = context,
               let profile = profile else { return }
         switch state {
-        case .send:
+        case .nothing:
             interactor.sendRequest(userID: profile.id)
             output?.requestedProfile?()
-        case .request:
+        case .wait:
             interactor.acceptRequest(userID: profile.id)
             output?.acceptedProfile?()
         default:
@@ -190,9 +190,9 @@ private extension ProfileInfoPresenter {
                 view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
             case .alreadySended:
                 view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
-            case .send:
+            case .nothing:
                 view?.setupInitialStateSendOffer(stringFactory: stringFactory)
-            case .request:
+            case .wait:
                 view?.setupInitialStateRecievedOffer(stringFactory: stringFactory)
             case .removed:
                 self.profile = RemovedProfileViewModel(id: profile.id)
