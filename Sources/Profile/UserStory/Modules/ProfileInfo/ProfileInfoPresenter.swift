@@ -11,11 +11,12 @@ import Managers
 import AlertManager
 import ModelInterfaces
 
+@objc
 protocol ProfileInfoModuleOutput: AnyObject {
-    func ignoredProfile()
-    func deniedProfile()
-    func acceptedProfile()
-    func requestedProfile()
+    @objc optional func ignoredProfile()
+    @objc optional func deniedProfile()
+    @objc optional func acceptedProfile()
+    @objc optional func requestedProfile()
 }
 
 protocol ProfileInfoModuleInput: AnyObject { }
@@ -129,10 +130,10 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
               let profile = profile else { return }
         switch state {
         case .send:
-            output?.ignoredProfile()
+            output?.ignoredProfile?()
         case .request:
             interactor.denyRequest(userID: profile.id)
-            output?.deniedProfile()
+            output?.deniedProfile?()
         default:
             break
         }
@@ -144,10 +145,10 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
         switch state {
         case .send:
             interactor.sendRequest(userID: profile.id)
-            output?.requestedProfile()
+            output?.requestedProfile?()
         case .request:
             interactor.acceptRequest(userID: profile.id)
-            output?.acceptedProfile()
+            output?.acceptedProfile?()
         default:
             break
         }

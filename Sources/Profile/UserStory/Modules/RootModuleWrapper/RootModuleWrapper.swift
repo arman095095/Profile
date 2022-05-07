@@ -40,18 +40,18 @@ extension RootModuleWrapper: ProfileModuleInput {
 
 extension RootModuleWrapper: ProfileInfoModuleOutput {
     func ignoredProfile() {
-        output?.ignoredProfile()
+        output?.ignoredProfile?()
     }
     
     func deniedProfile() {
-        output?.deniedProfile()
+        output?.deniedProfile?()
     }
     
     func acceptedProfile() {
-        output?.acceptedProfile()
+        output?.acceptedProfile?()
     }
     
     func requestedProfile() {
-        output?.requestedProfile()
+        output?.requestedProfile?()
     }
 }
