@@ -12,6 +12,7 @@ import Module
 import Managers
 import AlertManager
 import ProfileRouteMap
+import SettingsRouteMap
 import PostsRouteMap
 import UserStoryFacade
 import ModelInterfaces
@@ -39,6 +40,17 @@ extension ProfileUserStory: ProfileRouteMap {
 }
 
 extension ProfileUserStory: RouteMapPrivate {
+
+    func accountSettingsModule() -> SettingsModule {
+        guard let module = container
+            .synchronize()
+            .resolve(UserStoryFacadeProtocol.self)?
+            .settingsUserStory?
+            .rootModule() else {
+            fatalError(ErrorMessage.dependency.localizedDescription)
+        }
+        return module
+    }
     
     func currentAccountPostsModule(userID: String) -> PostsModule {
         guard let module = container.synchronize().resolve(UserStoryFacadeProtocol.self)?.postsUserStory?.currentAccountPostsModule(userID: userID) else {

@@ -15,7 +15,6 @@ enum ProfileState {
     case alreadySended
     case send
     case request
-    case currentAccount
     case removed
 }
 
@@ -24,7 +23,11 @@ protocol ProfileInfoInteractorInput: AnyObject {
     func isBlocked(profileID: String) -> Bool
     func block(profileID: String)
     func unblock(profileID: String)
-    func determinateState(with userID: String) -> ProfileState
+    func determinateState(with profile: ProfileModelProtocol) -> ProfileState
+    func denyRequest(userID: String)
+    func acceptRequest(userID: String)
+    func sendRequest(userID: String)
+    
 }
 
 protocol ProfileInfoInteractorOutput: AnyObject {
@@ -51,8 +54,32 @@ final class ProfileInfoInteractor {
 
 extension ProfileInfoInteractor: ProfileInfoInteractorInput {
 
-    func determinateState(with userID: String) -> ProfileState {
-        return .friend
+    func denyRequest(userID: String) {
+        communicationManager.denyRequestCommunication(userID: userID)
+    }
+    
+    func acceptRequest(userID: String) {
+        communicationManager.acceptRequestCommunication(userID: userID) { _ in }
+    }
+    
+    func sendRequest(userID: String) {
+        communicationManager.requestCommunication(userID: userID)
+    }
+
+    func determinateState(with profile: ProfileModelProtocol) -> ProfileState {
+        if profile.removed {
+            return .removed
+        }
+        if communicationManager.isProfileFriend(userID: profile.id) {
+            return .friend
+        }
+        if communicationManager.isProfileWaiting(userID: profile.id) {
+            return .request
+        }
+        if communicationManager.isProfileRequested(userID: profile.id) {
+            return .alreadySended
+        }
+        return .send
     }
     
     func refreshProfileInfo(userID: String) {

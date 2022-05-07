@@ -10,10 +10,12 @@ import UIKit
 import Managers
 import PostsRouteMap
 import ModelInterfaces
+import SettingsRouteMap
 
 protocol RouteMapPrivate: AnyObject {
     func currentAccountProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
     func someProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule
     func postsModule(userID: String) -> PostsModule
     func currentAccountPostsModule(userID: String) -> PostsModule
+    func accountSettingsModule() -> SettingsModule
 }

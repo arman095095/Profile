@@ -14,6 +14,7 @@ protocol ProfileInfoRouterInput: AnyObject {
                           stringFactory: ProfileStringFactoryProtocol)
     func openPostsModule(userID: String)
     func openCurrentAccountPostsModule(userID: String)
+    func openAccountSettingsModule()
 }
 
 protocol ProfileInfoRouterOutput: AnyObject {
@@ -32,7 +33,12 @@ final class ProfileInfoRouter {
 }
 
 extension ProfileInfoRouter: ProfileInfoRouterInput {
-
+    
+    func openAccountSettingsModule() {
+        let module = routeMap.accountSettingsModule()
+        transitionHandler?.navigationController?.pushViewController(module.view, animated: true)
+    }
+    
     func openCurrentAccountPostsModule(userID: String) {
         let module = routeMap.currentAccountPostsModule(userID: userID)
         transitionHandler?.navigationController?.pushViewController(module.view, animated: true)

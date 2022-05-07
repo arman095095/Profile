@@ -12,7 +12,10 @@ import AlertManager
 import ModelInterfaces
 
 protocol ProfileInfoModuleOutput: AnyObject {
-    func openAccountSettings()
+    func ignoredProfile()
+    func deniedProfile()
+    func acceptedProfile()
+    func requestedProfile()
 }
 
 protocol ProfileInfoModuleInput: AnyObject { }
@@ -74,14 +77,13 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     
     func viewDidLoad() {
         switch context {
-        case .root(let dto):
-            guard let model = dto as? ProfileInfoViewModelProtocol else { return }
-            self.state = .currentAccount
+        case .root(let profile):
+            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
             self.profile = model
             view?.setupInitialStateCurrentAccount(stringFactory: stringFactory)
-        case .some(let dto):
-            guard let model = dto as? ProfileInfoViewModelProtocol else { return }
-            let state = interactor.determinateState(with: model.id)
+        case .some(let profile):
+            guard let model = profile as? ProfileInfoViewModelProtocol else { return }
+            let state = interactor.determinateState(with: profile)
             self.state = state
             self.profile = model
             switch state {
@@ -93,10 +95,8 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
                 view?.setupInitialStateSendOffer(stringFactory: stringFactory)
             case .request:
                 view?.setupInitialStateRecievedOffer(stringFactory: stringFactory)
-            case .currentAccount:
-                view?.setupInitialStateCurrentAccount(stringFactory: stringFactory)
             case .removed:
-                self.profile = RemovedProfileViewModel(id: dto.id)
+                self.profile = RemovedProfileViewModel(id: profile.id)
                 view?.setupInitialStateFriendProfile(stringFactory: stringFactory)
             }
         }
@@ -114,7 +114,7 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     }
 
     func showAccountSettings() {
-        output?.openAccountSettings()
+        router.openAccountSettingsModule()
     }
 
     func showMenu() {
@@ -125,14 +125,14 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     
     func denyAction() {
         guard case .some = context,
-              let state = state else { return }
+              let state = state,
+              let profile = profile else { return }
         switch state {
         case .send:
-            // TO DO
-            break
+            output?.ignoredProfile()
         case .request:
-            // TO DO
-            break
+            interactor.denyRequest(userID: profile.id)
+            output?.deniedProfile()
         default:
             break
         }
@@ -140,14 +140,14 @@ extension ProfileInfoPresenter: ProfileInfoViewOutput {
     
     func acceptAction() {
         guard case .some = context,
-              let state = state else { return }
+              let profile = profile else { return }
         switch state {
         case .send:
-            // TO DO
-            break
+            interactor.sendRequest(userID: profile.id)
+            output?.requestedProfile()
         case .request:
-            // TO DO
-            break
+            interactor.acceptRequest(userID: profile.id)
+            output?.acceptedProfile()
         default:
             break
         }

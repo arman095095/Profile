@@ -39,7 +39,19 @@ extension RootModuleWrapper: ProfileModuleInput {
 }
 
 extension RootModuleWrapper: ProfileInfoModuleOutput {
-    func openAccountSettings() {
-        output?.openAccountSettingsModule()
+    func ignoredProfile() {
+        output?.ignoredProfile()
+    }
+    
+    func deniedProfile() {
+        output?.deniedProfile()
+    }
+    
+    func acceptedProfile() {
+        output?.acceptedProfile()
+    }
+    
+    func requestedProfile() {
+        output?.requestedProfile()
     }
 }
