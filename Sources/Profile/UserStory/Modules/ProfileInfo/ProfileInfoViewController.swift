@@ -231,6 +231,10 @@ private extension ProfileInfoViewController {
     }
     
     func constraintsForOffers() {
+        settingsButton.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 0).isActive = true
+        menuButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        menuButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         buttonsStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor,constant: 20).isActive = true
         buttonsStackView.topAnchor.constraint(equalTo: buttonsView.bottomAnchor,constant: 15).isActive = true
         buttonsStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,constant: -20).isActive = true
