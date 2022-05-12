@@ -70,15 +70,19 @@ extension ProfileUserStory: RouteMapPrivate {
     func currentAccountProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule {
         let safeResolver = container.synchronize()
         guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
-              let communicationManager = safeResolver.resolve(CommunicationManagerProtocol.self),
-              let profilesManager = safeResolver.resolve(ProfilesManagerProtocol.self) else {
+              let communicationManager = safeResolver.resolve(InitialCommunicationManagerProtocol.self),
+              let profileInfoManager = safeResolver.resolve(UserInfoManagerProtocol.self),
+              let blockingManager = safeResolver.resolve(BlockingManagerProtocol.self),
+              let determinator = safeResolver.resolve(ProfileStateDeterminator.self) else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         let module = ProfileInfoAssembly.makeModule(context: .root(profile),
                                                     routeMap: self,
                                                     alertManager: alertManager,
                                                     communicationManager: communicationManager,
-                                                    profilesManager: profilesManager)
+                                                    profileInfoManager: profileInfoManager,
+                                                    profileStateDeterminator: determinator,
+                                                    blockingManager: blockingManager)
         module.output = outputWrapper
         return module
     }
@@ -86,15 +90,19 @@ extension ProfileUserStory: RouteMapPrivate {
     func someProfileModule(profile: ProfileModelProtocol) -> ProfileInfoModule {
         let safeResolver = container.synchronize()
         guard let alertManager = safeResolver.resolve(AlertManagerProtocol.self),
-              let communicationManager = safeResolver.resolve(CommunicationManagerProtocol.self),
-              let profilesManager = safeResolver.resolve(ProfilesManagerProtocol.self) else {
+              let communicationManager = safeResolver.resolve(InitialCommunicationManagerProtocol.self),
+              let profileInfoManager = safeResolver.resolve(UserInfoManagerProtocol.self),
+              let blockingManager = safeResolver.resolve(BlockingManagerProtocol.self),
+              let determinator = safeResolver.resolve(ProfileStateDeterminator.self) else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         let module = ProfileInfoAssembly.makeModule(context: .some(profile),
                                                     routeMap: self,
                                                     alertManager: alertManager,
                                                     communicationManager: communicationManager,
-                                                    profilesManager: profilesManager)
+                                                    profileInfoManager: profileInfoManager,
+                                                    profileStateDeterminator: determinator,
+                                                    blockingManager: blockingManager)
         module.output = outputWrapper
         return module
     }

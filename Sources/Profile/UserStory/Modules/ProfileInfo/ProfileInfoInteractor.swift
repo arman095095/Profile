@@ -42,13 +42,19 @@ protocol ProfileInfoInteractorOutput: AnyObject {
 final class ProfileInfoInteractor {
     
     weak var output: ProfileInfoInteractorOutput?
-    private let communicationManager: CommunicationManagerProtocol
-    private let profilesManager: ProfilesManagerProtocol
+    private let communicationManager: InitialCommunicationManagerProtocol
+    private let profileInfoManager: UserInfoManagerProtocol
+    private let profileStateDeterminator: ProfileStateDeterminator
+    private let blockingManager: BlockingManagerProtocol
     
-    init(communicationManager: CommunicationManagerProtocol,
-         profilesManager: ProfilesManagerProtocol) {
+    init(communicationManager: InitialCommunicationManagerProtocol,
+         profileInfoManager: UserInfoManagerProtocol,
+         profileStateDeterminator: ProfileStateDeterminator,
+         blockingManager: BlockingManagerProtocol) {
         self.communicationManager = communicationManager
-        self.profilesManager = profilesManager
+        self.profileInfoManager = profileInfoManager
+        self.profileStateDeterminator = profileStateDeterminator
+        self.blockingManager = blockingManager
     }
 }
 
@@ -70,20 +76,20 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
         if profile.removed {
             return .removed
         }
-        if communicationManager.isProfileFriend(userID: profile.id) {
+        if profileStateDeterminator.isProfileFriend(userID: profile.id) {
             return .friend
         }
-        if communicationManager.isProfileWaiting(userID: profile.id) {
+        if profileStateDeterminator.isProfileWaiting(userID: profile.id) {
             return .wait
         }
-        if communicationManager.isProfileRequested(userID: profile.id) {
+        if profileStateDeterminator.isProfileRequested(userID: profile.id) {
             return .alreadySended
         }
         return .nothing
     }
     
     func refreshProfileInfo(userID: String) {
-        profilesManager.getProfile(userID: userID) { [weak self] result in
+        profileInfoManager.getProfile(userID: userID) { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.output?.successResponse(profile: profile)
@@ -94,7 +100,7 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
     }
     
     func block(profileID: String) {
-        communicationManager.blockProfile(profileID) { [weak self] result in
+        blockingManager.blockProfile(profileID) { [weak self] result in
             switch result {
             case .success:
                 self?.output?.successBlocked()
@@ -105,7 +111,7 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
     }
     
     func unblock(profileID: String) {
-        communicationManager.unblockProfile(profileID) { [weak self] result in
+        blockingManager.unblockProfile(profileID) { [weak self] result in
             switch result {
             case .success:
                 self?.output?.successUnblocked()
@@ -116,6 +122,6 @@ extension ProfileInfoInteractor: ProfileInfoInteractorInput {
     }
     
     func isBlocked(profileID: String) -> Bool {
-        communicationManager.isProfileBlocked(userID: profileID)
+        profileStateDeterminator.isProfileBlocked(userID: profileID)
     }
 }
