@@ -23,10 +23,10 @@ public final class InitialCommunicationManager {
     private let requestsService: RequestsServiceProtocol
     private let cacheService: AccountCacheServiceProtocol
     
-    init(accountID: String,
-         account: AccountModelProtocol,
-         requestsService: RequestsServiceProtocol,
-         cacheService: AccountCacheServiceProtocol) {
+    public init(accountID: String,
+                account: AccountModelProtocol,
+                requestsService: RequestsServiceProtocol,
+                cacheService: AccountCacheServiceProtocol) {
         self.account = account
         self.accountID = accountID
         self.requestsService = requestsService
@@ -43,7 +43,7 @@ extension InitialCommunicationManager: InitialCommunicationManagerProtocol {
     public func acceptRequestCommunication(userID: String, completion: @escaping (Result<Void, Error>) -> ()) {
         requestsService.accept(toID: userID, fromID: accountID) { _ in }
     }
-
+    
     public func requestCommunication(userID: String) {
         requestsService.send(toID: userID, fromID: accountID) { result in
             switch result {
