@@ -6,6 +6,7 @@ import PackageDescription
 private let dependencies: [Package.Dependency] = [
     .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0"),
     .package(url: "https://github.com/arman095095/Managers.git", branch: "develop"),
+    .package(url: "https://github.com/arman095095/Services.git", branch: "develop"),
     .package(url: "https://github.com/arman095095/Module.git", branch: "develop"),
     .package(url: "https://github.com/arman095095/DesignSystem.git", branch: "develop"),
     .package(url: "https://github.com/arman095095/AlertManager.git", branch: "develop"),
@@ -32,6 +33,7 @@ let package = Package(
             dependencies: [.product(name: "Swinject", package: "Swinject"),
                            .product(name: "Module", package: "Module"),
                            .product(name: "Managers", package: "Managers"),
+                           .product(name: "Services", package: "Services"),
                            .product(name: "DesignSystem", package: "DesignSystem"),
                            .product(name: "AlertManager", package: "AlertManager"),
                            .product(name: "Utils", package: "Utils"),
