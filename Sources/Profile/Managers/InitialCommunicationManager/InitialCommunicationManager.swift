@@ -10,23 +10,23 @@ import ModelInterfaces
 import NetworkServices
 import Services
 
-public protocol InitialCommunicationManagerProtocol {
+protocol InitialCommunicationManagerProtocol {
     func requestCommunication(userID: String)
     func acceptRequestCommunication(userID: String, completion: @escaping (Result<Void, Error>) -> ())
     func denyRequestCommunication(userID: String)
 }
 
-public final class InitialCommunicationManager {
+final class InitialCommunicationManager {
     
     private let accountID: String
     private let account: AccountModelProtocol
     private let requestsService: RequestsServiceProtocol
     private let cacheService: AccountCacheServiceProtocol
     
-    public init(accountID: String,
-                account: AccountModelProtocol,
-                requestsService: RequestsServiceProtocol,
-                cacheService: AccountCacheServiceProtocol) {
+    init(accountID: String,
+         account: AccountModelProtocol,
+         requestsService: RequestsServiceProtocol,
+         cacheService: AccountCacheServiceProtocol) {
         self.account = account
         self.accountID = accountID
         self.requestsService = requestsService
@@ -36,15 +36,15 @@ public final class InitialCommunicationManager {
 
 extension InitialCommunicationManager: InitialCommunicationManagerProtocol {
     
-    public func denyRequestCommunication(userID: String) {
+    func denyRequestCommunication(userID: String) {
         requestsService.deny(toID: userID, fromID: accountID) { _ in }
     }
     
-    public func acceptRequestCommunication(userID: String, completion: @escaping (Result<Void, Error>) -> ()) {
+    func acceptRequestCommunication(userID: String, completion: @escaping (Result<Void, Error>) -> ()) {
         requestsService.accept(toID: userID, fromID: accountID) { _ in }
     }
     
-    public func requestCommunication(userID: String) {
+    func requestCommunication(userID: String) {
         requestsService.send(toID: userID, fromID: accountID) { result in
             switch result {
             case .success:

@@ -12,8 +12,8 @@ import ModelInterfaces
 import NetworkServices
 import Services
 
-public final class InitialCommunicationManagerAssembly: Assembly {
-    public func assemble(container: Container) {
+final class InitialCommunicationManagerAssembly: Assembly {
+    func assemble(container: Container) {
         container.register(InitialCommunicationManagerProtocol.self) { r in
             guard let accountID = r.resolve(QuickAccessManagerProtocol.self)?.userID,
                   let account = r.resolve(AccountModelProtocol.self),
@@ -25,7 +25,7 @@ public final class InitialCommunicationManagerAssembly: Assembly {
                                                account: account,
                                                requestsService: requestsService,
                                                cacheService: cacheService)
-                                        
+            
         }.inObjectScope(.weak)
     }
 }
