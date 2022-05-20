@@ -10,7 +10,6 @@ import UIKit
 import Swinject
 import ProfileRouteMap
 import UserStoryFacade
-import Settings
 
 public final class ProfileUserStoryAssembly: Assembly {
     
