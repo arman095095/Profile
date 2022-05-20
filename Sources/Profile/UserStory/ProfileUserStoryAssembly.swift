@@ -18,6 +18,7 @@ public final class ProfileUserStoryAssembly: Assembly {
     public func assemble(container: Container) {
         ProfileStateDeterminatorAssembly().assemble(container: container)
         UserInfoManagerAssembly().assemble(container: container)
+        CommunicationNetworkServiceAssembly().assemble(container: container)
         InitialCommunicationManagerAssembly().assemble(container: container)
         container.register(ProfileRouteMap.self) { r in
             ProfileUserStory(container: container)

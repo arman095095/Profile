@@ -17,13 +17,13 @@ final class InitialCommunicationManagerAssembly: Assembly {
         container.register(InitialCommunicationManagerProtocol.self) { r in
             guard let accountID = r.resolve(QuickAccessManagerProtocol.self)?.userID,
                   let account = r.resolve(AccountModelProtocol.self),
-                  let requestsService = r.resolve(RequestsServiceProtocol.self),
+                  let communicationService = r.resolve(CommunicationNetworkServiceProtocol.self),
                   let cacheService = r.resolve(AccountCacheServiceProtocol.self) else {
                 fatalError(ErrorMessage.dependency.localizedDescription)
             }
             return InitialCommunicationManager(accountID: accountID,
                                                account: account,
-                                               requestsService: requestsService,
+                                               communicationService: communicationService,
                                                cacheService: cacheService)
             
         }.inObjectScope(.weak)
