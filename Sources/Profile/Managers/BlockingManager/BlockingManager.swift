@@ -36,14 +36,14 @@ final class BlockingManager {
     private let account: AccountModelProtocol
     private let accountID: String
     private let accountService: AccountNetworkServiceProtocol
-    private let profileService: ProfilesNetworkServiceProtocol
+    private let profileService: ProfileInfoNetworkServiceProtocol
     private let cacheService: AccountCacheServiceProtocol
     private let accountInfoNetworkService: AccountContentNetworkServiceProtocol
     
     init(account: AccountModelProtocol,
          accountID: String,
          accountService: AccountNetworkServiceProtocol,
-         profileService: ProfilesNetworkServiceProtocol,
+         profileService: ProfileInfoNetworkServiceProtocol,
          cacheService: AccountCacheServiceProtocol,
          accountInfoNetworkService: AccountContentNetworkServiceProtocol) {
         self.account = account

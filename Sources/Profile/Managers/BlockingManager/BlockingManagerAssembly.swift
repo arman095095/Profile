@@ -19,7 +19,7 @@ final class BlockingManagerAssembly: Assembly {
                   let account = r.resolve(AccountModelProtocol.self),
                   let accountService = r.resolve(AccountNetworkServiceProtocol.self),
                   let cacheService = r.resolve(AccountCacheServiceProtocol.self),
-                  let profileService = r.resolve(ProfilesNetworkServiceProtocol.self),
+                  let profileService = r.resolve(ProfileInfoNetworkServiceProtocol.self),
                   let accountInfoNetworkService = r.resolve(AccountContentNetworkServiceProtocol.self) else {
                 fatalError(ErrorMessage.dependency.localizedDescription)
             }

@@ -10,21 +10,21 @@ import NetworkServices
 import Services
 import ModelInterfaces
 
-public protocol UserInfoManagerProtocol {
+protocol UserInfoManagerProtocol {
     func getProfile(userID: String, completion: @escaping (Result<ProfileModelProtocol, Error>) -> Void)
 }
 
-public final class UserInfoManager {
-    private let profileService: ProfilesNetworkServiceProtocol
+final class UserInfoManager {
+    private let profileService: ProfileInfoNetworkServiceProtocol
     
-    public init(profileService: ProfilesNetworkServiceProtocol) {
+    init(profileService: ProfileInfoNetworkServiceProtocol) {
         self.profileService = profileService
     }
 }
 
 extension UserInfoManager: UserInfoManagerProtocol {
     
-    public func getProfile(userID: String, completion: @escaping (Result<ProfileModelProtocol, Error>) -> Void) {
+    func getProfile(userID: String, completion: @escaping (Result<ProfileModelProtocol, Error>) -> Void) {
         profileService.getProfileInfo(userID: userID) { result in
             switch result {
             case .success(let profile):

@@ -16,6 +16,7 @@ public final class ProfileUserStoryAssembly: Assembly {
     public init() { }
 
     public func assemble(container: Container) {
+        ProfileInfoNetworkServiceAssembly().assemble(container: container)
         ProfileStateDeterminatorAssembly().assemble(container: container)
         UserInfoManagerAssembly().assemble(container: container)
         BlockingManagerAssembly().assemble(container: container)
