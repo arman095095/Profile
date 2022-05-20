@@ -17,10 +17,10 @@ final class BlockingManagerAssembly: Assembly {
         container.register(BlockingManagerProtocol.self) { r in
             guard let accountID = r.resolve(QuickAccessManagerProtocol.self)?.userID,
                   let account = r.resolve(AccountModelProtocol.self),
-                  let accountService = r.resolve(AccountServiceProtocol.self),
+                  let accountService = r.resolve(AccountNetworkServiceProtocol.self),
                   let cacheService = r.resolve(AccountCacheServiceProtocol.self),
-                  let profileService = r.resolve(ProfilesServiceProtocol.self),
-                  let accountInfoNetworkService = r.resolve(AccountInfoNetworkServiceProtocol.self) else {
+                  let profileService = r.resolve(ProfilesNetworkServiceProtocol.self),
+                  let accountInfoNetworkService = r.resolve(AccountContentNetworkServiceProtocol.self) else {
                 fatalError(ErrorMessage.dependency.localizedDescription)
             }
             return BlockingManager(account: account,

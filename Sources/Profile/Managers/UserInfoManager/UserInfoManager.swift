@@ -15,9 +15,9 @@ public protocol UserInfoManagerProtocol {
 }
 
 public final class UserInfoManager {
-    private let profileService: ProfilesServiceProtocol
+    private let profileService: ProfilesNetworkServiceProtocol
     
-    public init(profileService: ProfilesServiceProtocol) {
+    public init(profileService: ProfilesNetworkServiceProtocol) {
         self.profileService = profileService
     }
 }

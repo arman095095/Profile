@@ -35,17 +35,17 @@ public protocol BlockingManagerProtocol: AnyObject {
 final class BlockingManager {
     private let account: AccountModelProtocol
     private let accountID: String
-    private let accountService: AccountServiceProtocol
-    private let profileService: ProfilesServiceProtocol
+    private let accountService: AccountNetworkServiceProtocol
+    private let profileService: ProfilesNetworkServiceProtocol
     private let cacheService: AccountCacheServiceProtocol
-    private let accountInfoNetworkService: AccountInfoNetworkServiceProtocol
+    private let accountInfoNetworkService: AccountContentNetworkServiceProtocol
     
     init(account: AccountModelProtocol,
          accountID: String,
-         accountService: AccountServiceProtocol,
-         profileService: ProfilesServiceProtocol,
+         accountService: AccountNetworkServiceProtocol,
+         profileService: ProfilesNetworkServiceProtocol,
          cacheService: AccountCacheServiceProtocol,
-         accountInfoNetworkService: AccountInfoNetworkServiceProtocol) {
+         accountInfoNetworkService: AccountContentNetworkServiceProtocol) {
         self.account = account
         self.accountID = accountID
         self.accountService = accountService
