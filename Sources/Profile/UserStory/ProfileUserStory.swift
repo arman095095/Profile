@@ -45,7 +45,7 @@ extension ProfileUserStory: RouteMapPrivate {
         guard let module = container
             .synchronize()
             .resolve(UserStoryFacadeProtocol.self)?
-            .settingsUserStory?
+            .settings?
             .rootModule() else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
@@ -54,14 +54,14 @@ extension ProfileUserStory: RouteMapPrivate {
     }
     
     func currentAccountPostsModule(userID: String) -> PostsModule {
-        guard let module = container.synchronize().resolve(UserStoryFacadeProtocol.self)?.postsUserStory?.currentAccountPostsModule(userID: userID) else {
+        guard let module = container.synchronize().resolve(UserStoryFacadeProtocol.self)?.posts?.currentAccountPostsModule(userID: userID) else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         return module
     }
     
     func postsModule(userID: String) -> PostsModule {
-        guard let module = container.synchronize().resolve(UserStoryFacadeProtocol.self)?.postsUserStory?.userPostsModule(userID: userID) else {
+        guard let module = container.synchronize().resolve(UserStoryFacadeProtocol.self)?.posts?.userPostsModule(userID: userID) else {
             fatalError(ErrorMessage.dependency.localizedDescription)
         }
         return module
